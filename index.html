@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090b1d">
+<title>ONECLICK — One click. One surprise.</title>
+<style>
+:root{color-scheme:dark;--bg:#090b1d;--panel:#121631;--cyan:#66efff;--violet:#9b70ff;--muted:#b8bdd8}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;background:radial-gradient(ellipse at 50% 35%,#25205a 0,#11142d 38%,var(--bg) 76%);display:grid;place-items:center;padding:22px}
+main{width:min(100%,560px);text-align:center}
+.brand{font-size:13px;letter-spacing:.34em;color:var(--cyan);font-weight:800}
+h1{font-size:clamp(38px,10vw,66px);line-height:1.02;margin:18px 0 12px;letter-spacing:-.05em}
+.sub{color:var(--muted);font-size:16px;line-height:1.55;margin:0 auto 28px;max-width:390px}
+.counter{display:inline-flex;gap:9px;align-items:center;border:1px solid #ffffff24;background:#ffffff0c;border-radius:999px;padding:10px 16px;color:#e9eaff;font-size:14px;margin-bottom:26px}
+.dot{width:8px;height:8px;border-radius:50%;background:#66efb2;box-shadow:0 0 12px #66efb2}
+button{font:inherit;cursor:pointer}
+#click{width:min(76vw,270px);aspect-ratio:1;border-radius:50%;border:1px solid #b4a0ff;background:radial-gradient(circle at 35% 28%,#c5aaff 0,#8c55ff 26%,#5727c7 62%,#27105d 100%);box-shadow:0 0 25px #8c55ff9c,0 0 85px #5b37ff66,inset 0 5px 18px #ffffff55,inset 0 -16px 30px #160638;color:white;font-size:clamp(23px,6vw,30px);font-weight:900;letter-spacing:.08em;text-shadow:0 2px 10px #21094f;transition:transform .15s,filter .15s}
+#click:active{transform:scale(.96);filter:brightness(1.2)}
+#click:focus-visible,.small:focus-visible{outline:3px solid var(--cyan);outline-offset:5px}
+.hint{color:#aeb4d6;font-size:12px;margin:18px 0 24px}
+.result{min-height:120px;border:1px solid #ffffff20;border-radius:22px;background:linear-gradient(145deg,#ffffff12,#ffffff05);padding:22px;display:grid;place-items:center;margin:0 auto 18px;max-width:460px}
+.result strong{font-size:clamp(19px,5vw,25px);line-height:1.3}
+.result small{display:block;color:var(--muted);margin-top:10px}
+.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.small{border:1px solid #ffffff35;background:#ffffff0d;color:#fff;border-radius:999px;padding:11px 17px;font-weight:650}
+.small:hover{background:#ffffff1a}
+footer{margin-top:30px;color:#9299bd;font-size:11px;line-height:1.6}
+.lang{position:fixed;top:16px;right:16px}
+.lang select{background:#171a38;color:white;border:1px solid #ffffff35;border-radius:10px;padding:8px}
+</style>
+</head>
+<body>
+<select class="lang" id="lang" aria-label="Language">
+<option value="fr">FR</option><option value="en">EN</option><option value="es">ES</option>
+</select>
+<main>
+  <div class="brand">ONECLICK</div>
+  <h1 id="headline">UN CLIC.<br>UNE SURPRISE.</h1>
+  <p class="sub" id="intro">Tu as une seconde ? Appuie sur le bouton et découvre ce qui t'attend.</p>
+  <div class="counter"><span class="dot"></span><span id="countLabel">Tu as participé</span> <b id="count">0</b> <span id="countSuffix">fois sur cet appareil</span></div>
+  <div><button id="click" type="button">JE CLIQUE</button></div>
+  <p class="hint" id="hint">Aucune inscription. Aucun paiement. Juste une surprise.</p>
+  <section class="result" aria-live="polite" aria-atomic="true">
+    <div><strong id="message">Le mystère attend ton premier clic…</strong><small id="detail">À toi de jouer.</small></div>
+  </section>
+  <div class="actions">
+    <button class="small" id="share" type="button">Partager ONECLICK ↗</button>
+    <button class="small" id="again" type="button">Une autre surprise</button>
+  </div>
+  <footer id="foot">Prototype de démonstration. Le compteur est enregistré uniquement sur cet appareil : il ne représente pas encore les clics mondiaux. ONECLICK ne promet aucun gain ni prédiction réelle.</footer>
+</main>
+<script>
+const copy={
+fr:{headline:"UN CLIC.<br>UNE SURPRISE.",intro:"Tu as une seconde ? Appuie sur le bouton et découvre ce qui t'attend.",countLabel:"Tu as participé",suffix:"fois sur cet appareil",button:"JE CLIQUE",hint:"Aucune inscription. Aucun paiement. Juste une surprise.",start:"Le mystère attend ton premier clic…",detail:"À toi de jouer.",share:"Partager ONECLICK ↗",again:"Une autre surprise",foot:"Prototype de démonstration. Le compteur est enregistré uniquement sur cet appareil : il ne représente pas encore les clics mondiaux. ONECLICK ne promet aucun gain ni prédiction réelle.",messages:[["Un inconnu quelque part dans le monde sourit en ce moment. Fais passer le sourire.","Ton petit geste vient d'ajouter une surprise à ta journée."],["Défi éclair : trouve quelque chose autour de toi qui te fait sourire.","Le monde est rempli de petits détails étonnants."],["Tu fais maintenant partie de l'expérience ONECLICK.","Un clic minuscule. Une curiosité immense."],["Envoie ce bouton à quelqu'un qui mérite une bonne surprise.","La curiosité se partage, jamais ne s'impose."],["Le saviez-vous ? Les pieuvres ont trois cœurs.","La nature sait encore nous étonner."]]},
+en:{headline:"ONE CLICK.<br>ONE SURPRISE.",intro:"Got one second? Tap the button and discover what's waiting for you.",countLabel:"You've clicked",suffix:"times on this device",button:"I'M IN",hint:"No sign-up. No payment. Just a surprise.",start:"The mystery is waiting for your first click…",detail:"Your turn.",share:"Share ONECLICK ↗",again:"Another surprise",foot:"Demo prototype. The counter is stored only on this device; it does not yet represent worldwide clicks. ONECLICK promises no prize or real prediction.",messages:[["Someone somewhere in the world is smiling right now. Pass it on.","A tiny moment of surprise for your day."],["Quick challenge: find something near you that makes you smile.","The world is full of little wonders."],["You're now part of the ONECLICK experiment.","One tiny click. A whole lot of curiosity."],["Send this button to someone who deserves a nice surprise.","Curiosity is shared, never forced."],["Did you know? Octopuses have three hearts.","Nature still knows how to surprise us."]]},
+es:{headline:"UN CLIC.<br>UNA SORPRESA.",intro:"¿Tienes un segundo? Pulsa el botón y descubre lo que te espera.",countLabel:"Has participado",suffix:"veces en este dispositivo",button:"¡CLICO!",hint:"Sin registro. Sin pago. Solo una sorpresa.",start:"El misterio espera tu primer clic…",detail:"Te toca.",share:"Compartir ONECLICK ↗",again:"Otra sorpresa",foot:"Prototipo de demostración. El contador se guarda solo en este dispositivo; todavía no representa los clics mundiales. ONECLICK no promete premios ni predicciones reales.",messages:[["Alguien en algún lugar del mundo está sonriendo ahora mismo. Comparte la sonrisa.","Un pequeño momento de sorpresa para tu día."],["Reto rápido: encuentra algo cerca de ti que te haga sonreír.","El mundo está lleno de pequeños detalles increíbles."],["Ahora formas parte de la experiencia ONECLICK.","Un clic pequeño. Una curiosidad enorme."],["Envía este botón a alguien que merezca una sorpresa.","La curiosidad se comparte, nunca se impone."],["¿Lo sabías? Los pulpos tienen tres corazones.","La naturaleza aún sabe sorprendernos."]]}}
+let lang="fr", clicks=Number(localStorage.getItem("oneclick_demo_clicks")||0), last=-1;
+const $=id=>document.getElementById(id);
+function render(){const c=copy[lang];$("headline").innerHTML=c.headline;$("intro").textContent=c.intro;$("countLabel").textContent=c.countLabel;$("countSuffix").textContent=c.suffix;$("click").textContent=c.button;$("hint").textContent=c.hint;$("share").textContent=c.share;$("again").textContent=c.again;$("foot").textContent=c.foot;$("count").textContent=clicks.toLocaleString(lang);if(last<0){$("message").textContent=c.start;$("detail").textContent=c.detail}}
+function surprise(){const c=copy[lang];let n;do{n=Math.floor(Math.random()*c.messages.length)}while(n===last&&c.messages.length>1);last=n;$("message").textContent=c.messages[n][0];$("detail").textContent=c.messages[n][1]}
+$("click").addEventListener("click",()=>{clicks++;localStorage.setItem("oneclick_demo_clicks",String(clicks));$("count").textContent=clicks.toLocaleString(lang);surprise()});
+$("again").addEventListener("click",surprise);
+$("lang").addEventListener("change",e=>{lang=e.target.value;last=-1;render()});
+$("share").addEventListener("click",async()=>{const data={title:"ONECLICK",text:"Un clic. Une surprise. Essaie ONECLICK !",url:location.href};try{if(navigator.share)await navigator.share(data);else{await navigator.clipboard.writeText(data.text+" "+data.url);$("detail").textContent=lang==="fr"?"Lien copié !":lang==="es"?"¡Enlace copiado!":"Link copied!"}}catch(e){}});
+render();
+</script>
+</body>
+</html>
